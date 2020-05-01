@@ -1,0 +1,204 @@
+public class HelloWorld{
+
+     public static void main(String []args){
+       LinkedList linkedList = new LinkedList();
+       linkedList.prePend(4);
+       linkedList.prePend(3);
+       linkedList.prePend(2);
+       linkedList.prePend(1);
+       linkedList.append(5);
+       linkedList.removeFirst();
+       linkedList.removeLast();
+
+       System.out.println(linkedList);
+       System.out.println(linkedList.getSize());
+
+       linkedList.insertAt(linkedList.getSize(),8);
+       linkedList.insertAt(1,7);
+       linkedList.insertAt(3,11);
+
+       System.out.println(linkedList);
+       System.out.println(linkedList.getSize());
+       
+      linkedList.removeAt(1);
+      linkedList.removeAt(linkedList.getSize());
+      linkedList.removeAt(2);
+      
+      System.out.println(linkedList);
+      System.out.println(linkedList.getSize());
+     }
+}
+
+
+class Node{
+    
+    Integer data;
+    Node next;
+    
+    
+    Node(Integer data){
+        this.data = data;
+        this.next = null;
+    }
+    
+}
+
+
+class LinkedList{
+    
+    Node header;
+    Node lastNode;
+    int size=0;
+    
+    LinkedList(){
+        header = new Node(null);
+        lastNode = header;
+    }
+    
+    public void prePend(Integer data){
+        Node node = new Node(data);
+        if(size==0)
+        {
+            header.next = node;
+            lastNode = node;
+            size++;
+        }
+        else
+        {
+            Node temp = header.next;
+            header.next = node;
+            node.next = temp;
+            size++;
+        }
+    }
+    
+    public void append(Integer data)
+    {
+        Node n = new Node(data);
+        if(size==0)
+        {
+            header.next = n;
+            lastNode = n;
+            size++;
+        }
+        else
+        {
+            lastNode.next = n;
+            lastNode = n;
+            size++;
+        }
+    }
+    
+    public void insertAt(int index, int data)
+    {
+        if(index>=0 && index<=size)
+        {
+            if(index==1)
+            {
+                prePend(data);
+            }
+            else if(index == size)
+            {
+                append(data);
+            }
+            else
+            {
+                Node n = new Node(data);
+                Node iteratorNode = header.next;
+                int tempCount = 1;
+                while(tempCount!=index-1)
+                {
+                    iteratorNode = iteratorNode.next;
+                    tempCount++;
+                }
+                Node temp = iteratorNode.next;
+                iteratorNode.next = n;
+                n.next = temp;
+                size++;
+                
+                
+            }
+        }
+    }
+    
+    public void removeFirst(){
+        if(size!=0)
+        {
+            header.next = header.next.next;
+            size--;
+        }
+    }
+    
+    public void removeLast(){
+        if(size!=0)
+        {
+            if(size==1)
+            {
+                header.next=null;
+                lastNode=header;
+                size--;
+            }
+            else
+            {
+                Node n = header.next;
+                while(n!=null)
+                {
+                    if(n.next == lastNode)
+                    {
+                        n.next = null;
+                        lastNode = n;
+                        size--;
+                        break;
+                    }
+                    n = n.next;
+                }
+                
+            }
+        }
+    }
+    
+    public void removeAt(int index)
+    {
+        if(index>=0 && index<=size)
+        {
+            if(index==1)
+            {
+                removeFirst();
+            }
+            else if(index == size)
+            {
+                removeLast();
+            }
+            else
+            {
+                Node iteratorNode = header.next;
+                int tempCount = 1;
+                while(tempCount!=index-1)
+                {
+                    iteratorNode = iteratorNode.next;
+                    tempCount++;
+                }
+                Node temp = iteratorNode.next;
+                iteratorNode.next = temp.next;
+                size--;
+            }
+        }
+    }
+    
+    
+    public String toString(){
+        Node n = header.next;
+        String temp = "";
+        while(n!=null)
+        {
+            temp = temp+n.data+" ";
+            n = n.next;
+        }
+        return temp;
+    }
+    
+    public int getSize(){
+        return size;
+    }
+    
+}
