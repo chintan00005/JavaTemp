@@ -1,0 +1,220 @@
+public class HelloWorld{
+
+     public static void main(String []args){
+    DoublyLinkedList doublyLinkList = new DoublyLinkedList();
+    doublyLinkList.prePend(5);
+    doublyLinkList.prePend(4);
+    doublyLinkList.append(16);
+    doublyLinkList.append(6);
+    doublyLinkList.append(10);
+    System.out.println("doublyLinkList "+doublyLinkList.toString());
+    doublyLinkList.removeFirst();
+    System.out.println("doublyLinkList "+doublyLinkList.toString());
+    doublyLinkList.removeLast();
+    System.out.println("doublyLinkList "+doublyLinkList.toString());
+    doublyLinkList.insertAt(2,6);
+    System.out.println("doublyLinkList "+doublyLinkList.toString());
+    doublyLinkList.removeAt(3);
+    System.out.println("doublyLinkList "+doublyLinkList.toString());
+    
+     System.out.println("doublyLinkList printReverse "+doublyLinkList.printReverse());
+    
+     }
+}
+
+
+class Node{
+    
+    Integer data;
+    Node next;
+    Node prev;
+    
+    
+    Node(Integer data){
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+    
+}
+
+
+class DoublyLinkedList{
+    
+    Node header;
+    Node lastNode;
+    int size=0;
+    
+    DoublyLinkedList(){
+        header = new Node(null);
+        lastNode = header;
+    }
+    
+    public void prePend(Integer data){
+        Node node = new Node(data);
+        if(size==0)
+        {
+            header.next = node;
+            lastNode = node;
+            node.prev = header;
+            size++;
+        }
+        else
+        {
+            Node temp = header.next;
+            header.next = node;
+            node.next = temp;
+            temp.prev = node;
+            size++;
+        }
+    }
+    
+    public void append(Integer data)
+    {
+        Node n = new Node(data);
+        if(size==0)
+        {
+            header.next = n;
+            lastNode = n;
+            n.prev = header;
+            size++;
+        }
+        else
+        {
+            lastNode.next = n;
+            n.prev = lastNode;
+            lastNode = n;
+            size++;
+        }
+    }
+    
+    public void insertAt(int index, int data)
+    {
+        if(index>=0 && index<=size)
+        {
+            if(index==1)
+            {
+                prePend(data);
+            }
+            else if(index == size)
+            {
+                append(data);
+            }
+            else
+            {
+                Node n = new Node(data);
+                Node iteratorNode = header.next;
+                int tempCount = 1;
+                while(tempCount!=index-1)
+                {
+                    iteratorNode = iteratorNode.next;
+                    tempCount++;
+                }
+                Node temp = iteratorNode.next;
+                iteratorNode.next = n;
+                n.prev = iteratorNode;
+                temp.prev = n;
+                n.next = temp;
+                size++;
+                
+                
+            }
+        }
+    }
+    
+    public void removeFirst(){
+        if(size!=0)
+        {
+            header.next.next.prev = header;
+            header.next = header.next.next;
+            size--;
+        }
+    }
+    
+    public void removeLast(){
+        if(size!=0)
+        {
+            if(size==1)
+            {
+                header.next=null;
+                lastNode=header;
+                size--;
+            }
+            else
+            {
+                Node n = header.next;
+                while(n!=null)
+                {
+                    if(n.next == lastNode)
+                    {
+                        n.next = null;
+                        lastNode = n;
+                        size--;
+                        break;
+                    }
+                    n = n.next;
+                }
+                
+            }
+        }
+    }
+    
+    public void removeAt(int index)
+    {
+        if(index>=0 && index<=size)
+        {
+            if(index==1)
+            {
+                removeFirst();
+            }
+            else if(index == size)
+            {
+                removeLast();
+            }
+            else
+            {
+                Node iteratorNode = header.next;
+                int tempCount = 1;
+                while(tempCount!=index-1)
+                {
+                    iteratorNode = iteratorNode.next;
+                    tempCount++;
+                }
+                Node temp = iteratorNode.next;
+                temp.next.prev = iteratorNode;
+                iteratorNode.next = temp.next;
+                size--;
+            }
+        }
+    }
+    
+    
+    public String toString(){
+        Node n = header.next;
+        String temp = "";
+        while(n!=null)
+        {
+            temp = temp+n.data+" ";
+            n = n.next;
+        }
+        return temp;
+    }
+    
+    public String printReverse(){
+        Node n = lastNode;
+        String temp = " ";
+        while(n!=header)
+        {
+            temp = temp + n.data+ " ";
+            n = n.prev;
+        }
+        
+        return temp;
+    }
+    
+    
+    public int getSize(){
+        return size;
+    }
+    
+}

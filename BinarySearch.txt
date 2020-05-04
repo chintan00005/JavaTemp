@@ -1,0 +1,44 @@
+import java.util.Arrays;
+public class HelloWorld{
+
+     public static void main(String []args){
+      int[] arr = {3,4,5,2,1};
+      Arrays.sort(arr);
+      binarySearch(arr,5);
+     }
+     
+     static void binarySearch(int[] array, int searchElement){
+      
+         int first = 0;
+         int last = array.length-1;
+         int pivot = first+last/2;
+         
+         while(first<=last)
+         {
+                     
+             if(searchElement==array[pivot])
+             {
+                 System.out.println("Location is "+pivot);
+                 break;
+             }
+             else if(array[pivot]<searchElement)
+             {
+                     first = pivot +1;
+                 pivot = (first+last)/2;
+                 
+             }
+                else if(array[pivot]>searchElement)
+             {
+             
+                 
+                 last = pivot -1;
+                 pivot = (first+last)/2;
+                 
+             }
+             else{
+                   System.out.println("No search term");
+             }
+         }
+     }
+     
+}
