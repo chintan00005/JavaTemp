@@ -11,7 +11,7 @@ public class HelloWorld{
       
          int first = 0;
          int last = array.length-1;
-         int pivot = first+last/2;
+         int pivot = (first+last)/2;
          
          while(first<=last)
          {
@@ -29,8 +29,6 @@ public class HelloWorld{
              }
                 else if(array[pivot]>searchElement)
              {
-             
-                 
                  last = pivot -1;
                  pivot = (first+last)/2;
                  
